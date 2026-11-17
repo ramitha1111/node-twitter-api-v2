@@ -1,20 +1,21 @@
+# Optimized by ci-cost (https://github.com/mariotavarez/ci-cost)
+# Applied 1 optimization:
+# - [HIGH] Add npm dependency cache to "live" job
+# Estimated savings: ~4 min/run
+#
 name: Live tests
-
-# Calls the real X API with the repository secrets, and some calls are billed: run it by hand, before a release for example
-on: workflow_dispatch
-
+'on': workflow_dispatch
 permissions:
   contents: read
-
 jobs:
   live:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v6
         with:
           node-version: 24.x
+          cache: npm
       - run: npm ci
       - run: npm run test:live
         env:
